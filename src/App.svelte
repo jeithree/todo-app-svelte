@@ -17,7 +17,7 @@
 </style>
 
 <main class="container">
-	<h1 class="my-2">Hello Texter</h1>
+	<h1 class="my-2">Hello Mr Texter</h1>
 	<div class="input-group">
 		<input class="form-control my-2" bind:value="{prefix}" type="text" placeholder="Enter a prefix">
 		<input class="form-control my-2" bind:value="{text}" type="text" placeholder="Enter a Text">
