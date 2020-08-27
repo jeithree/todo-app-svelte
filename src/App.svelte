@@ -13,9 +13,6 @@
 	}
 </script>
 
-<style>
-</style>
-
 <main class="container">
 	<h1 class="my-2">Hello Mr Texter</h1>
 	<div class="input-group">
@@ -33,3 +30,6 @@
 		<p class="my-2">Enter your first text</p>
 	{/if}
 </main>
+
+<style>
+</style>
