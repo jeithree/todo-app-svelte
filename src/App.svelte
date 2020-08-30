@@ -4,7 +4,7 @@
 	let todoImputElement;
 	let todoText;
 	let todoItems = [];
-	
+
 	let editMode = false;
 	let todoToEdit = '';
 
@@ -61,7 +61,7 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-12 mx-auto my-4">
+		<div class="col-12 col-lg-8 mx-auto my-4">
 			<div class="card">
 				<div class="card-body">
 					<h1 class="h3 mb-2 text-secondary">Add a Todo</h1>
