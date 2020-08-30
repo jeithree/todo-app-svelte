@@ -14,7 +14,7 @@
 	function toggleCompleted(id)
 	{
 		const index = todoItems.findIndex(item => item.id === Number(id));
-        todoItems[index].checked = !todoItems[index].checked;
+		todoItems[index].checked = !todoItems[index].checked;
 	}
 
 	function addTodo()
