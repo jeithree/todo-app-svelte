@@ -5,10 +5,32 @@
 	let todoText;
 	let todoItems = [];
 
+	let editMode = false;
+	let todoToEdit = '';
+
+	$: todoPending = todoItems.filter(item => item.checked !== true);
+	$: todoCompleted = todoItems.filter(item => item.checked !== false);
+
+	function toggleCompleted(id)
+	{
+		const index = todoItems.findIndex(item => item.id === Number(id));
+        todoItems[index].checked = !todoItems[index].checked;
+	}
+
 	function addTodo()
 	{
 		todoText = todoText.trim();
 		if (!todoText) {return;}
+
+		if (editMode)
+		{
+			todoItems[todoToEdit].text = todoText;
+			todoToEdit = '';
+			editMode = false;
+			todoText = '';
+			todoImputElement.focus();
+			return;
+		}
 
 		const newTodo = {
 			id: Date.now(),
@@ -19,6 +41,21 @@
 		todoText = '';
 		todoImputElement.focus();
 	}
+
+	function editTodo(id)
+    {
+		const index = todoItems.findIndex(item => item.id === Number(id));
+
+		todoImputElement.focus();
+		todoText = todoItems[index].text;
+		editMode = true;
+		todoToEdit = index;
+    }
+
+    function deleteTodo(id)
+    {
+        todoItems = todoItems.filter(item => item.id !== Number(id));
+    }
 
 </script>
 
@@ -39,10 +76,15 @@
 						<button
 							class="btn btn-primary"
 							on:click={addTodo}
-							type="button">Add</button>
+							type="button">{!editMode ? 'Add' : 'Save'}</button>
 					</div>
 				</div>
-				<Todos {todoItems} />
+				<Todos
+					{todoPending}
+					{todoCompleted}
+					{toggleCompleted}
+					{editTodo}
+					{deleteTodo} />
 			</div>
 		</div>
 	</div>
