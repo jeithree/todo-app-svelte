@@ -1,10 +1,9 @@
 <script>
+	import Todos from './components/Todos.svelte';
+
 	let todoImputElement;
 	let todoText;
 	let todoItems = [];
-
-	$: todoPending = todoItems.filter(item => item.checked !== true);
-	$: todoCompleted = todoItems.filter(item => item.checked !== false);
 
 	function addTodo()
 	{
@@ -21,11 +20,6 @@
 		todoImputElement.focus();
 	}
 
-	function toggleCompleted(id)
-	{
-		const index = todoItems.findIndex(item => item.id === Number(id));
-  		todoItems[index].checked = !todoItems[index].checked;
-	}
 </script>
 
 <div class="container">
@@ -48,48 +42,7 @@
 							type="button">Add</button>
 					</div>
 				</div>
-				{#if todoItems.length}
-					<div class="card-header border-top d-flex justify-content-between align-items-center">
-						Pending <span class="badge bg-secondary">{todoPending.length}</span>
-					</div>
-					<ul class="list-group list-group-flush">
-						{#if todoPending.length}
-							{#each todoPending as todo (todo.id)}
-								<li class="list-group-item">
-									<input
-										id={todo.id}
-										class="form-check-input mr-1"
-										on:click="{toggleCompleted(todo.id)}"
-										type="checkbox"
-										checked={todo.checked} />
-									{todo.text}
-								</li>
-							{/each}
-						{:else}
-							<li class="list-group-item">None</li>
-						{/if}
-					</ul>
-					<div class="card-header border-top d-flex justify-content-between align-items-center">
-						Completed <span class="badge bg-secondary">{todoCompleted.length}</span>
-					</div>
-					<ul class="list-group list-group-flush">
-						{#if todoCompleted.length}
-							{#each todoCompleted as todo (todo.id)}
-								<li class="list-group-item text-decoration-line-through">
-									<input
-										id={todo.id}
-										class="form-check-input mr-1 bg-success border-success"
-										on:click="{toggleCompleted(todo.id)}"
-										type="checkbox"
-										checked={todo.checked} />
-									{todo.text}
-								</li>
-							{/each}
-						{:else}
-							<li class="list-group-item">None</li>
-						{/if}
-					</ul>
-				{/if}
+				<Todos {todoItems} />
 			</div>
 		</div>
 	</div>
