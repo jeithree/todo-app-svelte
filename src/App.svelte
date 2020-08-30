@@ -5,7 +5,6 @@
 	let todoText;
 	let todoItems = [];
 	
-
 	let editMode = false;
 	let todoToEdit = '';
 
