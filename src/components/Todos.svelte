@@ -44,14 +44,14 @@
         todoImputElement.focus();
     }
 
-	function editTodo(id)
+    function editTodo(id)
     {
-		const index = todoItems.findIndex(item => item.id === Number(id));
+        const index = todoItems.findIndex(item => item.id === Number(id));
 
-		todoImputElement.focus();
-		todoText = todoItems[index].text;
-		editMode = true;
-		todoToEdit = index;
+        todoImputElement.focus();
+        todoText = todoItems[index].text;
+        editMode = true;
+        todoToEdit = index;
     }
 
     function deleteTodo(id)
