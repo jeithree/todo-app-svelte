@@ -1,10 +1,10 @@
 <script>
 	import Todos from './components/Todos.svelte';
+	import {appStore} from './stores';
+	import {todosStore} from './stores';
 
-	let todoImputElement;
-	let todoText = '';
+	let todoInputElement;
 	let todosElement;
-	let editMode = false;
 
 </script>
 
@@ -17,22 +17,20 @@
 					<div class="input-group mb-2">
 						<input
 							class="form-control"
-							bind:this={todoImputElement}
-							bind:value={todoText}
+							bind:this={todoInputElement}
+							bind:value={$appStore.todoInputText}
 							on:keydown="{(e) => e.key === 'Enter' ? todosElement.addTodo() : false }"
 							type="text"
 							placeholder="Enter a todo">
 						<button
 							class="btn btn-primary"
-							on:click={todosElement.addTodo}
-							type="button">{!editMode ? 'Add' : 'Save'}</button>
+							on:click={() => todosElement.addTodo()}
+							type="button">{!todosStore.$editMode ? 'Add' : 'Save'}</button>
 					</div>
 				</div>
 				<Todos
 					bind:this={todosElement}
-					bind:editMode={editMode}
-					{todoImputElement}
-					bind:todoText={todoText} />
+					{todoInputElement} />
 			</div>
 		</div>
 	</div>

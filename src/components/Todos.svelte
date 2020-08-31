@@ -1,72 +1,72 @@
 <script>
     import Todo from './Todo.svelte';
+    import {appStore} from '../stores';
+    import {todosStore} from '../stores';
 
-    export let todoImputElement;
-    export let todoText;
-    export let editMode;
+    export let todoInputElement;
 
-    let todoItems = [];
+    let todosItems = [];
     let todoToEdit = '';
 
-    $: todoPending = todoItems.filter(item => item.checked !== true);
-    $: todoCompleted = todoItems.filter(item => item.checked !== false);
+    $: todosPending = todosItems.filter(item => item.checked !== true);
+    $: todosCompleted = todosItems.filter(item => item.checked !== false);
 
     function toggleCompleted(id)
     {
-        const index = todoItems.findIndex(item => item.id === Number(id));
-        todoItems[index].checked = !todoItems[index].checked;
+        const index = todosItems.findIndex(item => item.id === Number(id));
+        todosItems[index].checked = !todosItems[index].checked;
     }
 
     export function addTodo()
     {
-        console.log(editMode, todoText);
+        console.log($todosStore.editMode, $appStore.todoInputText);
 
-        todoText = todoText.trim();
-        if (!todoText) {return;}
+        $appStore.todoInputText = $appStore.todoInputText.trim();
+        if (!$appStore.todoInputText) {return;}
 
-        if (editMode)
+        if ($todosStore.editMode)
         {
-            todoItems[todoToEdit].text = todoText;
+            todosItems[todoToEdit].text = $appStore.todoInputText;
             todoToEdit = '';
-            editMode = false;
-            todoText = '';
-            todoImputElement.focus();
+            $todosStore.editMode = false;
+            $appStore.todoInputText = '';
+            todoInputElement.focus();
             return;
         }
 
         const newTodo = {
             id: Date.now(),
-            text: todoText,
+            text: $appStore.todoInputText,
             checked: false,
         }
-        todoItems = [newTodo, ...todoItems];
-        todoText = '';
-        todoImputElement.focus();
+        todosItems = [newTodo, ...todosItems];
+        $appStore.todoInputText = '';
+        todoInputElement.focus();
     }
 
     function editTodo(id)
     {
-        const index = todoItems.findIndex(item => item.id === Number(id));
+        const index = todosItems.findIndex(item => item.id === Number(id));
 
-        todoImputElement.focus();
-        todoText = todoItems[index].text;
-        editMode = true;
+        todoInputElement.focus();
+        $appStore.todoInputText = todosItems[index].text;
+        $todosStore.editMode = true;
         todoToEdit = index;
     }
 
     function deleteTodo(id)
     {
-        todoItems = todoItems.filter(item => item.id !== Number(id));
+        todosItems = todosItems.filter(item => item.id !== Number(id));
     }
 
 </script>
 
 <div class="card-header border-top d-flex justify-content-between align-items-center">
-    Pending <span class="badge bg-secondary">{todoPending.length}</span>
+    Pending <span class="badge bg-secondary">{todosPending.length}</span>
 </div>
 <ul class="list-group list-group-flush">
-    {#if todoPending.length}
-        {#each todoPending as todo (todo.id)}
+    {#if todosPending.length}
+        {#each todosPending as todo (todo.id)}
             <Todo {todo} {toggleCompleted} {editTodo} {deleteTodo} />
         {/each}
     {:else}
@@ -74,11 +74,11 @@
     {/if}
 </ul>
 <div class="card-header border-top d-flex justify-content-between align-items-center">
-    Completed <span class="badge bg-secondary">{todoCompleted.length}</span>
+    Completed <span class="badge bg-secondary">{todosCompleted.length}</span>
 </div>
 <ul class="list-group list-group-flush">
-    {#if todoCompleted.length}
-        {#each todoCompleted as todo (todo.id)}
+    {#if todosCompleted.length}
+        {#each todosCompleted as todo (todo.id)}
             <Todo {todo} {toggleCompleted} {editTodo} {deleteTodo} />
         {/each}
     {:else}
