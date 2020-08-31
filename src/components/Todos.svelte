@@ -1,11 +1,63 @@
 <script>
     import Todo from './Todo.svelte';
 
-    export let todoPending;
-    export let todoCompleted;
-    export let toggleCompleted;
-    export let editTodo;
-    export let deleteTodo;
+    export let todoImputElement;
+    export let todoText;
+    export let editMode;
+
+    let todoItems = [];
+    let todoToEdit = '';
+
+	$: todoPending = todoItems.filter(item => item.checked !== true);
+	$: todoCompleted = todoItems.filter(item => item.checked !== false);
+
+	function toggleCompleted(id)
+	{
+		const index = todoItems.findIndex(item => item.id === Number(id));
+		todoItems[index].checked = !todoItems[index].checked;
+	}
+
+	export function addTodo()
+	{
+        console.log(editMode, todoText);
+
+		todoText = todoText.trim();
+		if (!todoText) {return;}
+
+		if (editMode)
+		{
+			todoItems[todoToEdit].text = todoText;
+			todoToEdit = '';
+			editMode = false;
+			todoText = '';
+			todoImputElement.focus();
+			return;
+		}
+
+		const newTodo = {
+			id: Date.now(),
+			text: todoText,
+			checked: false,
+		}
+		todoItems = [newTodo, ...todoItems];
+		todoText = '';
+        todoImputElement.focus();
+	}
+
+	function editTodo(id)
+    {
+		const index = todoItems.findIndex(item => item.id === Number(id));
+
+		todoImputElement.focus();
+		todoText = todoItems[index].text;
+		editMode = true;
+		todoToEdit = index;
+    }
+
+    function deleteTodo(id)
+    {
+        todoItems = todoItems.filter(item => item.id !== Number(id));
+    }
 
 </script>
 

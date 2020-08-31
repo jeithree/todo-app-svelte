@@ -2,60 +2,9 @@
 	import Todos from './components/Todos.svelte';
 
 	let todoImputElement;
-	let todoText;
-	let todoItems = [];
-
+	let todoText = '';
+	let todosElement;
 	let editMode = false;
-	let todoToEdit = '';
-
-	$: todoPending = todoItems.filter(item => item.checked !== true);
-	$: todoCompleted = todoItems.filter(item => item.checked !== false);
-
-	function toggleCompleted(id)
-	{
-		const index = todoItems.findIndex(item => item.id === Number(id));
-		todoItems[index].checked = !todoItems[index].checked;
-	}
-
-	function addTodo()
-	{
-		todoText = todoText.trim();
-		if (!todoText) {return;}
-
-		if (editMode)
-		{
-			todoItems[todoToEdit].text = todoText;
-			todoToEdit = '';
-			editMode = false;
-			todoText = '';
-			todoImputElement.focus();
-			return;
-		}
-
-		const newTodo = {
-			id: Date.now(),
-			text: todoText,
-			checked: false,
-		}
-		todoItems = [newTodo, ...todoItems];
-		todoText = '';
-		todoImputElement.focus();
-	}
-
-	function editTodo(id)
-    {
-		const index = todoItems.findIndex(item => item.id === Number(id));
-
-		todoImputElement.focus();
-		todoText = todoItems[index].text;
-		editMode = true;
-		todoToEdit = index;
-    }
-
-    function deleteTodo(id)
-    {
-        todoItems = todoItems.filter(item => item.id !== Number(id));
-    }
 
 </script>
 
@@ -70,21 +19,20 @@
 							class="form-control"
 							bind:this={todoImputElement}
 							bind:value={todoText}
-							on:keydown="{(e) => e.key === 'Enter' ? addTodo() : false }"
+							on:keydown="{(e) => e.key === 'Enter' ? todosElement.addTodo() : false }"
 							type="text"
 							placeholder="Enter a todo">
 						<button
 							class="btn btn-primary"
-							on:click={addTodo}
+							on:click={todosElement.addTodo}
 							type="button">{!editMode ? 'Add' : 'Save'}</button>
 					</div>
 				</div>
 				<Todos
-					{todoPending}
-					{todoCompleted}
-					{toggleCompleted}
-					{editTodo}
-					{deleteTodo} />
+					bind:this={todosElement}
+					bind:editMode={editMode}
+					{todoImputElement}
+					bind:todoText={todoText} />
 			</div>
 		</div>
 	</div>
