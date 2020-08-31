@@ -27,13 +27,13 @@
         if ($todosStore.editMode)
         {
             todosItems[todoToEdit].text = $appStore.todoInputText;
-            todoToEdit = '';
             $todosStore.editMode = false;
             $appStore.todoInputText = '';
             todoInputElement.focus();
             $todosStore.alert.show = true;
             $todosStore.alert.type= 'success';
-            $todosStore.alert.message = 'The Todo was updated successfully';
+            $todosStore.alert.message = `The Todo ID: ${todosItems[todoToEdit].id}, was updated successfully`;;
+            todoToEdit = '';
             return;
         }
 
@@ -62,7 +62,7 @@
         todosItems = todosItems.filter(item => item.id !== Number(id));
         $todosStore.alert.show = true;
         $todosStore.alert.type= 'danger';
-        $todosStore.alert.message = 'The Todo was deleted successfully';
+        $todosStore.alert.message = `The Todo ID: ${id}, was deleted successfully`;
     }
 
 </script>
