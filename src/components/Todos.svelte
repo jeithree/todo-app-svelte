@@ -19,7 +19,7 @@
 
     export function addTodo()
     {
-        console.log($todosStore.editMode, $appStore.todoInputText);
+        //console.log($todosStore.editMode, $appStore.todoInputText);
 
         $appStore.todoInputText = $appStore.todoInputText.trim();
         if (!$appStore.todoInputText) {return;}
