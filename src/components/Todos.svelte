@@ -8,41 +8,41 @@
     let todoItems = [];
     let todoToEdit = '';
 
-	$: todoPending = todoItems.filter(item => item.checked !== true);
-	$: todoCompleted = todoItems.filter(item => item.checked !== false);
+    $: todoPending = todoItems.filter(item => item.checked !== true);
+    $: todoCompleted = todoItems.filter(item => item.checked !== false);
 
-	function toggleCompleted(id)
-	{
-		const index = todoItems.findIndex(item => item.id === Number(id));
-		todoItems[index].checked = !todoItems[index].checked;
-	}
+    function toggleCompleted(id)
+    {
+        const index = todoItems.findIndex(item => item.id === Number(id));
+        todoItems[index].checked = !todoItems[index].checked;
+    }
 
-	export function addTodo()
-	{
+    export function addTodo()
+    {
         console.log(editMode, todoText);
 
-		todoText = todoText.trim();
-		if (!todoText) {return;}
+        todoText = todoText.trim();
+        if (!todoText) {return;}
 
-		if (editMode)
-		{
-			todoItems[todoToEdit].text = todoText;
-			todoToEdit = '';
-			editMode = false;
-			todoText = '';
-			todoImputElement.focus();
-			return;
-		}
+        if (editMode)
+        {
+            todoItems[todoToEdit].text = todoText;
+            todoToEdit = '';
+            editMode = false;
+            todoText = '';
+            todoImputElement.focus();
+            return;
+        }
 
-		const newTodo = {
-			id: Date.now(),
-			text: todoText,
-			checked: false,
-		}
-		todoItems = [newTodo, ...todoItems];
-		todoText = '';
+        const newTodo = {
+            id: Date.now(),
+            text: todoText,
+            checked: false,
+        }
+        todoItems = [newTodo, ...todoItems];
+        todoText = '';
         todoImputElement.focus();
-	}
+    }
 
 	function editTodo(id)
     {
