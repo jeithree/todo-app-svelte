@@ -13,7 +13,7 @@
             on:click="{toggleCompleted(todo.id)}"
             type="checkbox"
             checked={todo.checked} />
-        <span class="{todo.checked ? 'text-decoration-line-through' : ''}">{todo.text}</span>
+        <span class:text-decoration-line-through={todo.checked}>{todo.text}</span>
     </div>
     <div>
         <a href="#!" class="px-1 link-secondary" on:click|preventDefault="{editTodo(todo.id)}">

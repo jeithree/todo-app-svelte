@@ -9,8 +9,20 @@
 </script>
 
 <div class="container">
+
 	<div class="row">
 		<div class="col-12 col-lg-8 mx-auto my-4">
+			{#if $todosStore.alert.show}
+				<div class="alert {'alert-' + $todosStore.alert.type} alert-dismissible fade show">
+					{$todosStore.alert.message}
+					<button
+						type="button"
+						class="close"
+						on:click="{() => $todosStore.alert.show = false}">
+						<span>&times;</span>
+					</button>
+				</div>
+			{/if}
 			<div class="card">
 				<div class="card-body">
 					<h1 class="h3 mb-2 text-secondary">Add a Todo</h1>
@@ -25,7 +37,7 @@
 						<button
 							class="btn btn-primary"
 							on:click={() => todosElement.addTodo()}
-							type="button">{!todosStore.$editMode ? 'Add' : 'Save'}</button>
+							type="button">{!$todosStore.editMode ? 'Add' : 'Save'}</button>
 					</div>
 				</div>
 				<Todos

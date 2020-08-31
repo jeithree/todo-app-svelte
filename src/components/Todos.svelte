@@ -31,6 +31,9 @@
             $todosStore.editMode = false;
             $appStore.todoInputText = '';
             todoInputElement.focus();
+            $todosStore.alert.show = true;
+            $todosStore.alert.type= 'success';
+            $todosStore.alert.message = 'The Todo was updated successfully';
             return;
         }
 
@@ -57,6 +60,9 @@
     function deleteTodo(id)
     {
         todosItems = todosItems.filter(item => item.id !== Number(id));
+        $todosStore.alert.show = true;
+        $todosStore.alert.type= 'danger';
+        $todosStore.alert.message = 'The Todo was deleted successfully';
     }
 
 </script>
